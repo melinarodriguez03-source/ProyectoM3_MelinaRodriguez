@@ -183,3 +183,42 @@ body {
 .message {
     max-width: 60%;
 }
+
+.view {
+    padding:2rem 1 rem;
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+view h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+view p {
+    margin-bottom: 1rem;
+    color: #6b7280;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.25rem;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+btn--primary {
+    color: #fff;
+    background: #3b82f6;
+    border: 0;
+}
+
+.btn--primary:hover {
+    background: #2563eb;
+}
