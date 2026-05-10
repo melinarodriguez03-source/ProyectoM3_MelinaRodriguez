@@ -1,3 +1,24 @@
+.mainNav {
+    display: flex;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background: #111827;
+    border-bottom: 1px solid #1f2937;
+}
+
+.mainNav__link {
+    color: #f9f9f9;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    transition: background 0.15s;
+}
+
+.mainNav__link:hover {
+    background: #1f2937;
+}
+
 *, 
 *::before,
 *::after {
