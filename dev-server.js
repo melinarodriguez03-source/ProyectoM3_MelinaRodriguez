@@ -1,96 +1,101 @@
-import http from "http";
-import fs from "fs";
-import path from "path";
-import url from "url";
-import handler from "./api/functions.js";
-import dotenv from "dotenv";
+import { createServer } from "http";
+import { readFile } from "fs/promises";
+import { readFileSync as readFileSync2 } from "fs";
+import { extname, join } from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const PORT = 8080;
 
-const PORT = 5500;
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+// Cargar variables de entorno desde .env.local
+try {
+  const env = readFileSync2(join(__dirname, ".env.local"), "utf-8");
+  env.split("\n").forEach((line) => {
+    const [key, value] = line.split("=");
+    if (key && value) process.env[key.trim()] = value.trim();
+  });
+} catch {}
 
-const server = http.createServer(async (req, res) => {
-    // CORS headers
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+console.log("API KEY cargada:", process.env.GEMINI_API_KEY ? "SÍ" : "NO");
 
-    if (req.method === "OPTIONS") {
-        res.writeHead(200);
-        res.end();
-        return;
-    }
+const mimeTypes = {
+  ".html": "text/html",
+  ".js": "application/javascript",
+  ".css": "text/css",
+  ".json": "application/json",
+};
 
-    // Manejo de API
-    if (req.url.startsWith("/api/")) {
-        try {
-            // Mock de req y res para la serverless function
-            let body = "";
-            req.on("data", (chunk) => {
-                body += chunk.toString();
-            });
-
-            req.on("end", async () => {
-                req.body = body ? JSON.parse(body) : {};
-                
-                // Wrapper para res.status y res.json
-                const resWrapper = {
-                    status: (code) => {
-                        res.writeHead(code, { "Content-Type": "application/json" });
-                        return {
-                            json: (data) => {
-                                res.end(JSON.stringify(data));
-                            },
-                        };
-                    },
-                };
-
-                await handler(req, resWrapper);
-            });
-        } catch (err) {
-            console.error("Error:", err);
-            res.writeHead(500, { "Content-Type": "application/json" });
-            res.end(JSON.stringify({ error: "Error interno del servidor" }));
-        }
-        return;
-    }
-
-    // Manejo de archivos estáticos
-    let filePath = path.join(__dirname, "src", req.url === "/" ? "index.html" : req.url);
-    filePath = filePath.split("?")[0]; // Remover query strings
-
-    const ext = path.extname(filePath);
-    const mimeTypes = {
-        ".html": "text/html",
-        ".js": "text/javascript",
-        ".mjs": "text/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".svg": "image/svg+xml",
-        ".ico": "image/x-icon",
-    };
-
-    fs.readFile(filePath, (err, content) => {
-        if (err) {
-            res.writeHead(404, { "Content-Type": "text/html" });
-            res.end("<h1>404 - Archivo no encontrado</h1>");
-            return;
-        }
-
-        res.writeHead(200, {
-            "Content-Type": mimeTypes[ext] || "text/plain",
-            "Cache-Control": "no-cache",
-        });
-        res.end(content);
+const server = createServer(async (req, res) => {
+  if (req.url === "/api/functions" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", async () => {
+      try {
+        const { default: handler } = await import("./api/functions.js");
+        const mockRes = {
+          statusCode: 200,
+          headers: {},
+          status(code) { this.statusCode = code; return this; },
+          json(data) {
+            res.writeHead(this.statusCode, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(data));
+          },
+        };
+        await handler({ method: "POST", body: JSON.parse(body) }, mockRes);
+      } catch (err) {
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Error interno" }));
+      }
     });
+    return;
+  }
+
+  const url = req.url === "/" ? "/index.html" : req.url;
+  const ext = extname(url) || ".html";
+
+  if (!extname(req.url) && req.url !== "/") {
+    try {
+      const fallback = await readFile(join(__dirname, "index.html"));
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(fallback);
+    } catch {
+      const fallback = await readFile(join(__dirname, "src", "index.html"));
+      res.writeHead(200, { "Content-Type": "text/html" });
+      res.end(fallback);
+    }
+    return;
+  }
+
+  let content;
+  try {
+    content = await readFile(join(__dirname, url));
+  } catch {
+    try {
+      content = await readFile(join(__dirname, "src", url));
+    } catch {
+      try {
+        const fallback = await readFile(join(__dirname, "index.html"));
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(fallback);
+      } catch {
+        const fallback = await readFile(join(__dirname, "src", "index.html"));
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(fallback);
+      }
+      return;
+    }
+  }
+
+  res.writeHead(200, { "Content-Type": mimeTypes[ext] || "text/plain" });
+  res.end(content);
 });
 
-server.listen(PORT, () => {
-    console.log(`🚀 Servidor ejecutándose en http://localhost:${PORT}`);
-    console.log(`📝 API disponible en http://localhost:${PORT}/api/functions`);
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") {
+    console.error(`Puerto ${PORT} ocupado. Cerrá otros servidores y volvé a intentar.`);
+    process.exit(1);
+  }
 });
+
+server.listen(PORT, () => console.log(`Dev server running at http://localhost:${PORT}`));

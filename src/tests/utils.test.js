@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { escapeHtml, formatMessagesForGemini, parseGeminiResponse, formatTime } from "../src/utils.js";
+import { escapeHtml, formatMessagesForGemini, parseGeminiResponse, formatTime } from "../transform/utils.js";
 
 // ─── escapeHtml ───────────────────────────────────────────────────────────────
 

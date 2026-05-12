@@ -21,7 +21,6 @@ Reglas importantes:
 - No des instrucciones reales sobre drogas, armas ni actividades ilegales. Si te preguntan algo así, respondé en personaje pero sin información real.`;
 
 export default async function handler(req, res) {
-    // Solo aceptar POST
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Método no permitido" });
     }
@@ -37,45 +36,41 @@ export default async function handler(req, res) {
     }
 
     try {
-        // Inicializar cliente de Google Generative AI
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
+            model: "gemini-2.0-flash",
             systemInstruction: SYSTEM_PROMPT,
         });
 
-        // Configurar generación
         const generationConfig = {
             temperature: 0.85,
             maxOutputTokens: 300,
         };
 
-        // Crear chat con historial
+        // Todo excepto el último mensaje, y sin el primer mensaje si es "model"
+        const history = messages
+            .slice(0, -1)
+            .filter((_, index) => !(index === 0 && messages[0].role === "model"));
+
         const chat = model.startChat({
-            history: messages,
+            history,
             generationConfig,
         });
 
-        // Obtener último mensaje del usuario
+        // El último mensaje es el que envía el usuario ahora
         const lastMessage = messages[messages.length - 1];
-        if (!lastMessage || lastMessage.role === "model") {
-            return res.status(400).json({ error: "Último mensaje debe ser del usuario" });
+        if (!lastMessage || lastMessage.role !== "user") {
+            return res.status(400).json({ error: "El último mensaje debe ser del usuario" });
         }
 
-        // Generar respuesta
         const result = await chat.sendMessage(lastMessage.parts[0].text);
         const response = result.response;
 
-        // Transformar respuesta del SDK al formato esperado por el cliente
         const formattedResponse = {
             candidates: [
                 {
                     content: {
-                        parts: [
-                            {
-                                text: response.text(),
-                            },
-                        ],
+                        parts: [{ text: response.text() }],
                     },
                 },
             ],
