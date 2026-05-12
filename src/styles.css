@@ -136,7 +136,7 @@ body {
     background: #2563eb;
 }
 
-@media (min-widht: 768px) {
+@media (min-width: 768px) {
     .chatHeader {
         padding: 1.25rem 1.5rem;
     }
@@ -187,18 +187,18 @@ body {
 /*vistas home/about/not found*/
 
 .view {
-    padding:2rem 1 rem;
+    padding:2rem 1rem;
     max-width: 40rem;
     margin: 0 auto;
     text-align: center;
 }
 
-view h1 {
+.view h1 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
-view p {
+.view p {
     margin-bottom: 1rem;
     color: #6b7280;
 }
@@ -215,7 +215,7 @@ view p {
     margin-top: 1rem;
 }
 
-btn--primary {
+.btn--primary {
     color: #fff;
     background: #3b82f6;
     border: 0;
@@ -223,4 +223,38 @@ btn--primary {
 
 .btn--primary:hover {
     background: #2563eb;
+}
+
+
+
+.message--typing {
+    font-style: italic;
+    opacity: 0.7;
+    animation: typing-pulse 1.2s infinite;
+}
+
+@keyframes typing-pulse {
+    0%, 100% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
+
+.message--error {
+align-self: center;
+max-width: 90%;
+background: #fbe9e9;
+color: #b91c1c;
+border: 1px solid #dfcdcd;
+font-size: 0.9rem;
+text-align:center;
+}
+
+.chatComposer__input:disabled,
+.chatComposer__send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  
 }
