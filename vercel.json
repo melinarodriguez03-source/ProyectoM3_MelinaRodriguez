@@ -1,0 +1,7 @@
+{
+  "buildCommand": "npm install",
+  "devCommand": "node dev-server.js",
+  "installCommand": "npm install",
+  "outputDirectory": "src",
+  "publicPath": "src"
+}

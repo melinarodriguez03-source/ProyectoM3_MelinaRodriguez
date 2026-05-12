@@ -1,0 +1,35 @@
+{
+  "name": "chat-walter-white",
+  "version": "1.0.0",
+  "description": "SPA para chatear con Walter White usando Google Gemini AI",
+  "type": "module",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^1.6.0",
+    "jsdom": "^24.0.0",
+    "vitest": "^1.6.0"
+  },
+  "vitest": {
+    "environment": "jsdom"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melinarodriguez03-source/ProyectoM3_MelinaRodriguez.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/melinarodriguez03-source/ProyectoM3_MelinaRodriguez/issues"
+  },
+  "homepage": "https://github.com/melinarodriguez03-source/ProyectoM3_MelinaRodriguez#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^16.4.5"
+  }
+}
