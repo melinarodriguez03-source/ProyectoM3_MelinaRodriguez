@@ -127,10 +127,11 @@ async function getCharacterReply(messages) {
         body: JSON.stringify({ messages: formattedMessages }),
     });
 
+    if (response.status === 429) {
+        return "Estoy... ocupado en este momento. Mis recursos tienen límites, igual que la paciencia. Volvé más tarde.";
+    }
+
     if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
     }
-
-    const data = await response.json();
-    return parseGeminiResponse(data);
 }

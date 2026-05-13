@@ -1,9 +1,36 @@
+*, 
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #202020;
+    background: #f9f9f9;
+}
+
+/* ─── NAV ─────────────────────────────────────────────────────────────────── */
+
 .mainNav {
     display: flex;
     gap: 1rem;
     padding: 0.75rem 1rem;
-    background: #111827;
+    background: #050c16;
     border-bottom: 1px solid #1f2937;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
 }
 
 .mainNav__link {
@@ -19,44 +46,35 @@
     background: #1f2937;
 }
 
-*, 
-*::before,
-*::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ─── APP ─────────────────────────────────────────────────────────────────── */
+
+#app {
+    padding-top: 48px;
 }
 
-html {
-    font-size: 16px;
-}
-
-body {
-    font-family:
-    system-ui, 
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #202020;
-    background: #f9f9f9;
-}
+/* ─── CHAT ────────────────────────────────────────────────────────────────── */
 
 .chatApp {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: calc(100vh - 48px);
     background: #fff;
+    max-width: 64rem;
+    margin: 0 auto;
+    border-left: 1px solid #e5e7eb;
+    border-right: 1px solid #e5e7eb;
+    background-image: url('../assets/breaking-bad.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .chatHeader {
     padding: 1rem;
     border-bottom: 1px solid #e5e7eb;
-    background: #f3f4f6;
+    background: rgba(243, 244, 246, 0.9);
 }
 
-.chatHeader__tittle {
+.chatHeader__title {
     font-size: 1.25rem;
     font-weight: 600;
 }
@@ -81,10 +99,11 @@ body {
     gap: 0.5rem;
     padding: 0.75rem;
     border-top: 1px solid #e5e7eb;
-    background: #d7e0e9;
+    background: rgba(215, 224, 233, 0.95);
 }
 
-/* Messages */
+/* ─── MESSAGES ────────────────────────────────────────────────────────────── */
+
 .message {
     max-width: 85%;
     padding: 0.75rem 1rem;
@@ -94,16 +113,39 @@ body {
 
 .message--character {
     align-self: flex-start;
-    background: #88a2d5;
-    color: #111827;
-    border: 1px solid #0e1a33;
+    background: #ffffff;
+    color: #010102;
+    border: 1px solid #ffffff;
 }
 
 .message--user {
     align-self: flex-end;
-    background: #111827;
-    color: #ffffff;
+    background: #6cde6e;
+    color: #000000;
 }
+
+.message--typing {
+    font-style: italic;
+    opacity: 0.7;
+    animation: typing-pulse 1.2s infinite;
+}
+
+@keyframes typing-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.9; }
+}
+
+.message--error {
+    align-self: center;
+    max-width: 90%;
+    background: #fbe9e9;
+    color: #b91c1c;
+    border: 1px solid #dfcdcd;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ─── COMPOSER ────────────────────────────────────────────────────────────── */
 
 .chatComposer__input {
     flex: 1;
@@ -124,7 +166,7 @@ body {
     padding: 0.75rem 1.25rem;
     font-family: inherit;
     font-size: 1rem;
-    color: #fff;   
+    color: #fff;
     background: #3b82f6;
     border: 0;
     border-radius: 0.75rem;
@@ -136,72 +178,13 @@ body {
     background: #2563eb;
 }
 
-@media (min-width: 768px) {
-    .chatHeader {
-        padding: 1.25rem 1.5rem;
-    }
+.chatComposer__input:disabled,
+.chatComposer__send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
-.chatMessages{
-    padding: 1.5rem;
-    gap: 1rem;
-}
-
-.chatComposer {
-    padding: 1rem 1.5rem;
-}
-
-.message {
-    max-width: 75%;
-}
-
-@media (min-width: 1024px) {
-    body {
-        background: #f3f4f6;
-    }
-}
-
-.chatApp {
-    max-width: 64rem;
-    margin: 0 auto;
-    border-left: 1px solid #e5e7eb;
-    border-right: 1px solid #e5e7eb;
-}
-
-.chatHeader {
-    padding: 1.5rem 2rem;
-}
-
-.chatMessages {
-    padding: 2rem;
-}
-
-.chatComposer {
-    padding: 1.5rem 2rem;
-}
-
-.message {
-    max-width: 60%;
-}
-
-/*vistas home/about/not found*/
-
-.view {
-    padding:2rem 1rem;
-    max-width: 40rem;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.view h1 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.view p {
-    margin-bottom: 1rem;
-    color: #6b7280;
-}
+/* ─── BOTONES ─────────────────────────────────────────────────────────────── */
 
 .btn {
     display: inline-block;
@@ -225,36 +208,173 @@ body {
     background: #2563eb;
 }
 
+/* ─── HOME ────────────────────────────────────────────────────────────────── */
 
-
-.message--typing {
-    font-style: italic;
-    opacity: 0.7;
-    animation: typing-pulse 1.2s infinite;
+.view--home {
+    min-height: calc(100vh - 48px);
+    background-image: url('../assets/walter-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem;
 }
 
-@keyframes typing-pulse {
-    0%, 100% {
-        opacity: 0.4;
+.view--home .home__card {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 100%;
+    text-align: center;
+}
+
+.view--home h1 {
+    color: #fff;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+}
+
+.view--home p {
+    color: #d1d5db;
+    margin-bottom: 0.75rem;
+}
+
+.view--home .btn--primary {
+    margin-top: 1.25rem;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .view--home {
+        padding: 2rem;
     }
-    50% {
-        opacity: 0.9;
+
+    .view--home .home__card {
+        max-width: 28rem;
     }
 }
 
-.message--error {
-align-self: center;
-max-width: 90%;
-background: #fbe9e9;
-color: #b91c1c;
-border: 1px solid #dfcdcd;
-font-size: 0.9rem;
-text-align:center;
+@media (min-width: 1024px) {
+    .view--home {
+        align-items: flex-start;
+        padding: 7rem;
+    }
+
+    .view--home .home__card {
+        max-width: 25rem;
+        text-align: left;
+    }
+
+    .view--home .btn--primary {
+        width: auto;
+    }
 }
 
-.chatComposer__input:disabled,
-.chatComposer__send:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  
+/* ─── ABOUT ───────────────────────────────────────────────────────────────── */
+
+.view--about {
+    min-height: calc(100vh - 48px);
+    background-image: url('../assets/camioneta.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.about__card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 36rem;
+    text-align: center;
+    color: #fff;
+}
+
+.about__card h1 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.about__card p {
+    color: #d1d5db;
+    margin-bottom: 0.75rem;
+}
+
+.about__card strong {
+    color: #fff;
+}
+
+/* ─── NOT FOUND ───────────────────────────────────────────────────────────── */
+
+.view--notFound {
+    padding: 2rem 1rem;
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.view--notFound h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.view--notFound p {
+    margin-bottom: 1rem;
+    color: #6b7280;
+}
+
+/* ─── MEDIA QUERIES GENERALES ─────────────────────────────────────────────── */
+
+@media (min-width: 768px) {
+    .chatHeader {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .chatMessages {
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .chatComposer {
+        padding: 1rem 1.5rem;
+    }
+
+    .message {
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 1024px) {
+    body {
+        background: #f3f4f6;
+    }
+
+    .chatHeader {
+        padding: 1.5rem 2rem;
+    }
+
+    .chatMessages {
+        padding: 2rem;
+    }
+
+    .chatComposer {
+        padding: 1.5rem 2rem;
+    }
+
+    .message {
+        max-width: 60%;
+    }
 }

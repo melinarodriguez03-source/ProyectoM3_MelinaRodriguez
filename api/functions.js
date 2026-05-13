@@ -78,8 +78,13 @@ export default async function handler(req, res) {
 
         return res.status(200).json(formattedResponse);
 
-    } catch (err) {
+   } catch (err) {
         console.error("Error en serverless function:", err);
+        
+        if (err.status === 429) {
+            return res.status(429).json({ error: "Cuota agotada" });
+        }
+        
         return res.status(500).json({ error: "Error interno del servidor" });
     }
 }
