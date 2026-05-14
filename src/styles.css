@@ -63,7 +63,7 @@ body {
     margin: 0 auto;
     border-left: 1px solid #e5e7eb;
     border-right: 1px solid #e5e7eb;
-    background-image: url('../assets/breaking-bad.jpg');
+    background-image: url('./assets/breaking-bad.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -212,7 +212,7 @@ body {
 
 .view--home {
     min-height: calc(100vh - 48px);
-    background-image: url('../assets/walter-bg.jpg');
+    background-image: url('./assets/walter-bg.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -280,7 +280,7 @@ body {
 
 .view--about {
     min-height: calc(100vh - 48px);
-    background-image: url('../assets/camioneta.jpg');
+    background-image: url('./assets/camioneta.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
