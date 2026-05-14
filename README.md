@@ -74,15 +74,19 @@ Los tests se encuentran en `/tests` y cubren:
 
 ---
 
-## Capturas de pantalla
+## Capturas de pantalla de app funcionando en PC
+![Home Page Pc](readme.img/Home%20en%20Pc.jpg.png)
+![Chat Page Pc](readme.img/Chat%20en%20pc.jpg.png)
 
-> Agregá capturas de la aplicación funcionando en mobile, tablet y desktop.
+## Capturas de pantalla de app funcionando en Mobile
+![Home Page Mobile](readme.img/Home%20en%20mobile.jpg.png)
+![Chat Page Mobile](readme.img/Chat%20en%20mobile.jpg.png)
 
 ---
 
 ## Link a la aplicación desplegada
 
-> Agregá la URL de Vercel una vez desplegada.
+> (https://proyecto-m3-melina-rodriguez.vercel.app/)
 
 ---
 
