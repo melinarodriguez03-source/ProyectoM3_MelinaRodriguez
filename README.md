@@ -92,10 +92,21 @@ Los tests se encuentran en `/tests` y cubren:
 
 ## Registro del uso de IA
 
-Durante el desarrollo se utilizó Claude (Anthropic) como herramienta de apoyo para:
+Durante el desarrollo se utilizó Claude y Copilot como herramienta de apoyo para:
 - Detectar y corregir bugs en el código (llave mal ubicada en `navigation.js`, `>` faltante en el form).
 - Generar el system prompt de Walter White para Gemini.
 - Estructurar `utils.js`, `api/functions.js` y los tests unitarios.
-- Revisar el CSS y corregir errores de tipeo (`min-widht`, selectores sin punto).
+- Revisar el CSS y corregir errores de tipeo
+-Corregir errores al abrir servidores
+
+## Capturas de pantalla con uso de la IA
+![Copilot](img/Prompt%20copilot_1.jpg.png)
+![Copilot](img/Prompt%20copilot_2.jpg.png)
+![Copilot](img/Prompt%20copilot_3.jpg.png)
+![Claude](img/Prompt%20claude_1.jpg.png)
+![Claude](img/Prompt%20claude_2.jpg.png)
+![Claude](img/Prompt%20claude_3.jpg.png)
+
+
 
 Las sugerencias fueron evaluadas y adaptadas al código existente antes de incorporarlas.
