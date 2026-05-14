@@ -75,12 +75,12 @@ Los tests se encuentran en `/tests` y cubren:
 ---
 
 ## Capturas de pantalla de app funcionando en PC
-![Home Page Pc](readme.img/Home%20en%20Pc.jpg.png)
-![Chat Page Pc](readme.img/Chat%20en%20pc.jpg.png)
+![Home Page Pc](img/Home%20en%20Pc.jpg.png)
+![Chat Page Pc](img/Chat%20en%20pc.jpg.png)
 
 ## Capturas de pantalla de app funcionando en Mobile
-![Home Page Mobile](readme.img/Home%20en%20mobile.jpg.png)
-![Chat Page Mobile](readme.img/Chat%20en%20mobile.jpg.png)
+![Home Page Mobile](img/Home%20en%20mobile.jpg.png)
+![Chat Page Mobile](img/Chat%20en%20mobile.jpg.png)
 
 ---
 
