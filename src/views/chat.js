@@ -1,13 +1,13 @@
-import { escapeHtml, formatMessagesForGemini, parseGeminiResponse } from "./../transform/utils.js";
+import { escapeHtml, formatMessagesForGemini } from "./../transform/utils.js";
 
 const state = {
     messages: [
         {
             role: "character",
             text: "Soy Walter White. Algunos me llaman Heisenberg. ¿En qué puedo... orientarte?",
-        },
+            },
     ],
-    status: "idle", // idle | loading | error
+    status: "idle",
     error: null,
 };
 
@@ -113,11 +113,6 @@ function scrollToBottom() {
     }
 }
 
-/**
- * Llama a la serverless function que hace de proxy a Gemini.
- * @param {Array<{role: string, text: string}>} messages - historial completo
- * @returns {Promise<string>} texto de respuesta del personaje
- */
 async function getCharacterReply(messages) {
     const formattedMessages = formatMessagesForGemini(messages);
 
@@ -134,4 +129,7 @@ async function getCharacterReply(messages) {
     if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
 }
