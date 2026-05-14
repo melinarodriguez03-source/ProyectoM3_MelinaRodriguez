@@ -24,6 +24,12 @@ const mimeTypes = {
   ".js": "application/javascript",
   ".css": "text/css",
   ".json": "application/json",
+  ".jpg": "image/jpeg",
+  ".jpeg": "image/jpeg",
+  ".png": "image/png",
+  ".gif": "image/gif",
+  ".svg": "image/svg+xml",
+  ".ico": "image/x-icon",
 };
 
 const server = createServer(async (req, res) => {
@@ -72,18 +78,22 @@ const server = createServer(async (req, res) => {
     content = await readFile(join(__dirname, url));
   } catch {
     try {
-      content = await readFile(join(__dirname, "src", url));
+      content = await readFile(join(__dirname, "public", url));
     } catch {
       try {
-        const fallback = await readFile(join(__dirname, "index.html"));
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(fallback);
+        content = await readFile(join(__dirname, "src", url));
       } catch {
-        const fallback = await readFile(join(__dirname, "src", "index.html"));
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(fallback);
+        try {
+          const fallback = await readFile(join(__dirname, "index.html"));
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(fallback);
+        } catch {
+          const fallback = await readFile(join(__dirname, "src", "index.html"));
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(fallback);
+        }
+        return;
       }
-      return;
     }
   }
 
