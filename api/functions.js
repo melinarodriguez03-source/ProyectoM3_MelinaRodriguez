@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
         const generationConfig = {
             temperature: 0.85,
-            maxOutputTokens: 300,
+            maxOutputTokens: 1024,
         };
 
         // Todo excepto el último mensaje, y sin el primer mensaje si es "model"
